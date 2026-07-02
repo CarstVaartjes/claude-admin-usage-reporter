@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Claude Admin Usage Reporter</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Claude Admin Usage Reporter</h1>
+    <p class="subtitle">Per-user token usage by organization role, pulled from Anthropic's Admin API.</p>
+  </header>
+
+  <section class="toolbar">
+    <label>
+      Role
+      <select id="roleFilter"><option value="">All roles</option></select>
+    </label>
+    <label>
+      Month
+      <select id="monthFilter"><option value="">All months</option></select>
+    </label>
+    <button id="refreshBtn">Refresh from Admin API</button>
+    <span id="status"></span>
+  </section>
+
+  <section id="warningBanner" class="banner" hidden></section>
+
+  <section class="charts">
+    <div class="chart-card">
+      <h2>Total tokens by user (selected month/role)</h2>
+      <canvas id="userChart" height="280"></canvas>
+    </div>
+    <div class="chart-card">
+      <h2>Monthly trend by role</h2>
+      <canvas id="trendChart" height="280"></canvas>
+    </div>
+  </section>
+
+  <section>
+    <h2>Detail</h2>
+    <table id="reportTable">
+      <thead>
+        <tr>
+          <th>Month</th><th>User</th><th>Email</th><th>Role</th>
+          <th>Input tokens</th><th>Output tokens</th><th>Cache read</th><th>Cache write</th>
+          <th>Total tokens</th><th>Est. cost (USD)</th><th>Models</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <footer>
+    <p>Cost figures are <strong>estimates</strong> from a static price table, not your actual invoice.
+      See <a href="https://github.com/CarstVaartjes/claude-admin-usage-reporter#limitations">limitations</a>.
+      Last fetched: <span id="fetchedAt">never</span>.</p>
+  </footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
